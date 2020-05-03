@@ -1,0 +1,46 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  justify-items: center;
+  align-items: center;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 128px);
+  grid-template-rows: repeat(4, 128px);
+}
+
+img {
+  display: block;
+  width: 114px;
+  height: 114px;
+  cursor: pointer;
+}
+
+img[data-done] {
+  cursor: default;
+}
+
+img[src='./images/placeholder.png'] {
+  width: 100px;
+  height: 100px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease-in-out;
+}
+
+img[src='./images/placeholder.png']:hover,
+img[src='./images/placeholder.png']:focus {
+  opacity: 0.8;
+}
+
+img[src='./images/placeholder.png']:active {
+  opacity: 1;
+}
