@@ -8,11 +8,20 @@ const state = {
   waitingForCheck: false,
   currentVisible: null,
   completed: [],
+  score: 0,
+  triesSinceLastMatch: 0,
+
   setCurrentVisible(imgElement) {
     this.currentVisible = imgElement;
   },
+
   addCompleted(imgElement) {
     this.completed.push(imgElement);
+  },
+
+  increaseScore() {
+    this.score += 1 / this.triesSinceLastMatch;
+    this.triesSinceLastMatch = 0;
   },
 };
 
@@ -45,6 +54,21 @@ const imagesMatch = (imgElement) => {
   return state.currentVisible.getAttribute('data-src') === imgElement.getAttribute('data-src');
 };
 
+const compareAndUpdateScore = (imgElement) => {
+  if (imagesMatch(imgElement)) {
+    markAsDone(imgElement);
+    markAsDone(state.currentVisible);
+    state.increaseScore();
+  } else {
+    hideImage(imgElement);
+    hideImage(state.currentVisible);
+  }
+};
+
+const waitAMomentAndThen = (callback) => {
+  setTimeout(callback, 1000);
+};
+
 const toggleImage = (event) => {
   if (state.waitingForCheck) {
     return;
@@ -63,17 +87,12 @@ const toggleImage = (event) => {
     if (isFirstImg) {
       state.setCurrentVisible(imgElement);
     } else {
-      setTimeout(() => {
-        if (imagesMatch(imgElement)) {
-          markAsDone(imgElement);
-          markAsDone(state.currentVisible);
-        } else {
-          hideImage(imgElement);
-          hideImage(state.currentVisible);
-        }
+      waitAMomentAndThen(() => {
+        state.triesSinceLastMatch++;
+        compareAndUpdateScore(imgElement);
         state.setCurrentVisible(null);
         state.waitingForCheck = false;
-      }, 1000);
+      });
     }
   }
 };
