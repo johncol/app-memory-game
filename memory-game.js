@@ -54,11 +54,16 @@ const imagesMatch = (imgElement) => {
   return state.currentVisible.getAttribute('data-src') === imgElement.getAttribute('data-src');
 };
 
+const updateView = () => {
+  document.getElementById('score').innerText = state.score.toFixed(2);
+};
+
 const compareAndUpdateScore = (imgElement) => {
   if (imagesMatch(imgElement)) {
     markAsDone(imgElement);
     markAsDone(state.currentVisible);
     state.increaseScore();
+    updateView();
   } else {
     hideImage(imgElement);
     hideImage(state.currentVisible);
@@ -119,3 +124,4 @@ const imgElements = [...buildImgElements(gameImgSources), ...buildImgElements(ga
   () => 0.5 - Math.random()
 );
 addImagesToGameGrid(imgElements);
+updateView();
