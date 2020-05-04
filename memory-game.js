@@ -20,7 +20,7 @@ const state = {
   },
 
   increaseScore() {
-    this.score += 1 / this.triesSinceLastMatch;
+    this.score += 100 / this.triesSinceLastMatch;
     this.triesSinceLastMatch = 0;
   },
 };
@@ -55,7 +55,7 @@ const imagesMatch = (imgElement) => {
 };
 
 const updateView = () => {
-  document.getElementById('score').innerText = state.score.toFixed(2);
+  document.getElementById('score').innerText = state.score.toFixed(0);
 };
 
 const compareAndUpdateScore = (imgElement) => {
